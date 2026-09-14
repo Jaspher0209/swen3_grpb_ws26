@@ -298,6 +298,8 @@ components:
       properties:
         filename:
           type: string
+        description:
+          type: string
         updated:
           type: string
           format: date-time
