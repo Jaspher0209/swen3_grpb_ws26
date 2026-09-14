@@ -215,7 +215,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                type: object
+                properties:
+                  link:
+                    type: string
+                  message:
+                    type: string
         '404':
           description: Document not found.
           content:
@@ -253,8 +258,6 @@ paths:
                 type: object
                 properties:
                   link:
-                    type: string
-                  message:
                     type: string
         '401':
           description: Requires Password.
