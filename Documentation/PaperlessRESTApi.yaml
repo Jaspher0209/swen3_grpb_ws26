@@ -1,0 +1,309 @@
+openapi: 3.1.0
+info:
+  title: PaperlessREST
+  description: PaperlessREST
+  version: 1.0.0
+servers:
+  - url: https://localhost:8000/api
+    description: local server (docker compose)
+  - url: https://not-valid-url
+    description: Production server
+
+paths:
+  /document:
+    get:
+      summary: Retrieve a document
+      description: Receive document by id
+      parameters:
+        - name: id
+          in: query
+          description: The ID of the document to retrieve.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Document retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '404':
+          description: Document not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+                
+    post:
+      summary: Upload a document to the service
+      description: This endpoint allows you to upload a document for processing and storage.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              file:
+                type: string
+                format: binary
+                description: The document file to be uploaded.
+              metadata:
+                type: object
+                description: Optional metadata associated with the document.
+      responses:
+        '200':
+          description: Document uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                  message:
+                    type: string
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+                
+    put:
+      summary: Update a document
+      description: This endpoint updates all data that is not null.
+      parameters:
+        - name: id
+          in: query
+          description: The ID of the document to update.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+      responses:
+        '200':
+          description: Document updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '404':
+          description: Document not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+                
+    delete:
+      summary: Delete a document by ID
+      parameters:
+        - name: id
+          in: query
+          description: The ID of the document to delete.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Document deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '404':
+          description: Document not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+                
+  /search:
+    get:
+      summary: Search for documents
+      description: Search for documents based on query parameters.
+      parameters:
+        - name: query
+          in: query
+          description: The search query string.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search results retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Metadata'
+                  total:
+                    type: integer
+                    format: int32
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+                
+  /share:
+    post:
+      summary: Create a shareable link
+      description: Retrieve a shareable link for a document by its ID.
+      parameters:  
+        - name: id
+          in: query
+          description: The ID of the document to share.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: expires
+          in: query
+          description: Optional expiration time for the shareable link (timestamp).
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: password
+          in: query
+          description: Optional password for accessing the shareable link.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Shareable link retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  link:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Document not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'        
+    get:
+      summary: Resolve a link
+      description: Resolve a shareable link to its target document.
+      parameters:
+        - name: link
+          in: query
+          description: The shareable link to resolve.
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: Optional password for accessing the shareable link.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Shareable link retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  link:
+                    type: string
+        '401':
+          description: Requires Password.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '404':
+          description: Link not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+components:
+  schemas:
+    Document:
+      type: object
+      properties:
+        data:
+          type: string
+          format: binary
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+          
+    Metadata:
+      type: object
+      properties:
+        filename:
+          type: string
+        description:
+          type: string
+        updated:
+          type: string
+          format: date-time
+        author:
+          type: string
+          
+    Message:
+        type: object
+        properties:
+          message:
+            type: string
