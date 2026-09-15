@@ -173,7 +173,7 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: '#/components/schemas/SearchResult'
+                      $ref: '#/components/schemas/Metadata'
                   total:
                     type: integer
                     format: int32
@@ -286,13 +286,6 @@ components:
         data:
           type: string
           format: binary
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-    SearchResult:
-      type: object
-      properties:
-        section:
-          type: string
         metadata:
           $ref: '#/components/schemas/Metadata'
           
