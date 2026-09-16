@@ -54,7 +54,13 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Document'
+              type: object
+              properties:
+                data:
+                  type: string
+                  format: binary
+                metadata:
+                  $ref: '#/components/schemas/Metadata'
       responses:
         '200':
           description: Document updated successfully.
@@ -144,7 +150,15 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Document'
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: string
+                  format: binary
+                metadata:
+                  $ref: '#/components/schemas/Metadata'
       responses:
         '200':
           description: Document uploaded successfully.
@@ -299,17 +313,6 @@ paths:
 
 components:
   schemas:
-    Document:
-      type: object
-      required:
-        - data
-      properties:
-        data:
-          type: string
-          format: binary
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-          
     Metadata:
       type: object
       properties:
