@@ -1,4 +1,7 @@
 
+using PaperlessREST.Api.Endpoints;
+using PaperlessREST.Bll;
+
 namespace PaperlessREST.Api;
 
 public class Program
@@ -8,6 +11,9 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+        
+        builder.Services.AddScoped<IDocumentService, DocumentService>();
+        
         builder.Services.AddAuthorization();
 
         builder.Services.AddOpenApi();
@@ -22,12 +28,7 @@ public class Program
 
         app.UseAuthorization();
 
-        app.MapGet("/api/test", (HttpContext httpContext) =>
-        {
-            return "Hello World!";
-        })
-        .WithName("Test")
-        .WithOpenApi();
+        app.MapDocumentEndpoint();
 
         app.Run();
     }

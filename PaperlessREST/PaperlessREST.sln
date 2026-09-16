@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Api", "PaperlessREST.Api\PaperlessREST.Api.csproj", "{F4661387-B9F4-4EA2-B18F-A853D081ECD5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Bll", "PaperlessREST.Bll\PaperlessREST.Bll.csproj", "{677E27CF-0284-471E-BCEF-A8E2FB7D5F27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Models", "PaperlessREST.Models\PaperlessREST.Models.csproj", "{F647410A-B570-4C6D-A3A1-05BA86EABC9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{F4661387-B9F4-4EA2-B18F-A853D081ECD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4661387-B9F4-4EA2-B18F-A853D081ECD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4661387-B9F4-4EA2-B18F-A853D081ECD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{677E27CF-0284-471E-BCEF-A8E2FB7D5F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{677E27CF-0284-471E-BCEF-A8E2FB7D5F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{677E27CF-0284-471E-BCEF-A8E2FB7D5F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{677E27CF-0284-471E-BCEF-A8E2FB7D5F27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F647410A-B570-4C6D-A3A1-05BA86EABC9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F647410A-B570-4C6D-A3A1-05BA86EABC9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F647410A-B570-4C6D-A3A1-05BA86EABC9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F647410A-B570-4C6D-A3A1-05BA86EABC9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
