@@ -2,5 +2,5 @@ namespace Models;
 
 public class Message
 {
-    public string message;
+    public string message { get; set; }
 }

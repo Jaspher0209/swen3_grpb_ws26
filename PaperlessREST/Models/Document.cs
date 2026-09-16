@@ -2,7 +2,7 @@ namespace Models;
 
 public class Document
 {
-    public int id;
-    public string data;
-    public DocumentMetaData metaData;
+    public int id { get; set; }
+    public string data { get; set; }
+    public MetaData metaData { get; set; }
 }
