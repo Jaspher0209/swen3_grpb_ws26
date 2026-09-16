@@ -4,9 +4,9 @@ namespace Dal;
 
 public interface IRepository
 {
-    Document GetDocument(int id);
-    int UploadDocument(Document metaData);
-    bool EditDocument(int id, Document metaData);
-    bool RemoveDocument(int id);
+    Task<MetaData?> GetDocument(int id);
+    Task<int> UploadDocument(MetaData metaData);
+    Task EditDocument(int id, MetaData metaData);
+    Task RemoveDocument(int id);
 
 }
