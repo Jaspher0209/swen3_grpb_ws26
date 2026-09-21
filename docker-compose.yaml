@@ -1,0 +1,28 @@
+services:
+  backend:
+    build: ./PaperlessREST/
+    environment:
+      DATABASE_URL: postgres://ppls:ppls@postgres:5432/ppls
+      ASPNETCORE_URLS: http://+:8081
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: ppls
+      POSTGRES_USER: ppls
+      POSTGRES_PASSWORD: ppls
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ppls -d ppls" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+    postgres_data:
