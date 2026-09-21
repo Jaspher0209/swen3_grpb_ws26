@@ -14,15 +14,15 @@ public class DocumentMetaRepository : IRepository
     
     
     // Retrieve Document from Db
-    public async Task<MetaData?> GetDocument(int id)
+    public async Task<MetaData?> GetDocument(string id)
     {
-        var products = await _dbContext.MetaData.FirstOrDefaultAsync();
-        return products;
+        var metaData = await _dbContext.MetaData.FirstOrDefaultAsync(m => m.id == id);
+        return metaData;
     }
 
     // Upload Document into Db
 
-    public async Task<int> UploadDocument(MetaData metaData)
+    public async Task<string> UploadDocument(MetaData metaData)
     {
         _dbContext.MetaData.Add(metaData);
         await _dbContext.SaveChangesAsync();
@@ -30,19 +30,23 @@ public class DocumentMetaRepository : IRepository
     }
 
     // Edit Document in Db
-    public async Task EditDocument(int id, MetaData metaData)
+    public async Task EditDocument(string id, MetaData metaData)
     {
         var found = await _dbContext.MetaData.FindAsync(id);
-        
-        if (found != null)
-        {
-            found = metaData;
-            await _dbContext.SaveChangesAsync(); // Auto-detects and applies changes!
-        }
+
+        if (found == null)
+            return;
+
+        found.author = metaData.author;
+        found.description = metaData.description;
+        found.filename = metaData.filename;
+        found.updated = metaData.updated;
+
+        await _dbContext.SaveChangesAsync();
     }
 
     // Remove Document from Db
-    public async Task RemoveDocument(int id)
+    public async Task RemoveDocument(string id)
     {
         var found = await _dbContext.MetaData.FindAsync(id);
         if (found != null)
