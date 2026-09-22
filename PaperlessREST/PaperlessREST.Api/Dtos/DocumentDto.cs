@@ -1,10 +1,12 @@
-using PaperlessREST.Models;
+using Models;
 
 namespace PaperlessREST.Api.Dtos;
 
 public class DocumentDto
 {
     public string Id { get; set; }
+    public string Data { get; set; }
+    public MetaDataDto MetaData { get; set; }
 }
 
 public static class DocumentDtoExtensions
@@ -13,7 +15,9 @@ public static class DocumentDtoExtensions
     {
         return new DocumentDto
         {
-            Id = document.Id
+            Id = document.id,
+            Data = document.data,
+            MetaData = document.metaData.ToDto()
         };
     }
     
@@ -21,7 +25,9 @@ public static class DocumentDtoExtensions
     {
         return new Document
         {
-            Id = documentDto.Id
+            id = documentDto.Id,
+            data = documentDto.Data,
+            metaData = documentDto.MetaData.ToModel()
         };
     }
 }
