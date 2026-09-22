@@ -22,8 +22,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Dal\Dal.csproj" />
-      <ProjectReference Include="..\Models\Models.csproj" />
+      <ProjectReference Include="..\PaperlessREST.Dal\PaperlessREST.Dal.csproj" />
+      <ProjectReference Include="..\PaperlessREST.Models\PaperlessREST.Models.csproj" />
+      <ProjectReference Include="..\PaperlessREST.Bll\PaperlessREST.Bll.csproj" />
     </ItemGroup>
 
 </Project>
