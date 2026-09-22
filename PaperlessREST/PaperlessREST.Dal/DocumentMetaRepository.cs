@@ -30,9 +30,9 @@ public class DocumentMetaRepository : IRepository
     }
 
     // Edit Document in Db
-    public async Task EditDocument(string id, MetaData metaData)
+    public async Task EditDocument(MetaData metaData)
     {
-        var found = await _dbContext.MetaData.FindAsync(id);
+        var found = await _dbContext.MetaData.FindAsync(metaData.Id);
 
         if (found == null)
             return;
