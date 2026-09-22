@@ -17,6 +17,7 @@ public class GlobalExceptionHandler : IExceptionHandler
         var (statusCode, title) = exception switch
         {
             KeyNotFoundException => (StatusCodes.Status404NotFound, "Resource not found"),
+            ArgumentException => (StatusCodes.Status400BadRequest, "Invalid argument"),
             InvalidOperationException => (StatusCodes.Status400BadRequest, "Invalid operation"),
             UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Unauthorized access"),
             _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred")
