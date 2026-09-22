@@ -15,7 +15,7 @@ public static class DocumentEndpoint
         var searchGroup = documentGroup.MapGroup("/search");
         var shareGroup = documentGroup.MapGroup("/share");
 
-        documentGroup.MapGet("/{id}", GetDocumentMetadata);
+        documentGroup.MapGet("/{id}/metadata", GetDocumentMetadata);
         documentGroup.MapPut("/{id}", UpdateDocument);
     }
 
