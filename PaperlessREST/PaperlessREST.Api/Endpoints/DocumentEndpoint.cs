@@ -15,9 +15,39 @@ public static class DocumentEndpoint
         var searchGroup = documentGroup.MapGroup("/search");
         var shareGroup = documentGroup.MapGroup("/share");
 
+        documentGroup.MapPost("/", CreateDocument);
         documentGroup.MapGet("/{id}/metadata", GetDocumentMetadata);
         documentGroup.MapGet("/{id}/content", GetDocumentContent);
         documentGroup.MapPut("/{id}", UpdateDocument);
+        documentGroup.MapDelete("/{id}", DeleteDocument);
+        searchGroup.MapGet("/", SearchDocuments);
+    }
+    
+    private static async Task<IResult> CreateDocument([FromForm] IFormFile data,
+        [FromForm] string metadata, IDocumentService documentService)
+    {
+        var document = new DocumentDto();
+        
+        if (data != null && data.Length > 0)
+        {
+            var fileName = data.FileName;
+            var stream = data.OpenReadStream();
+            document.Data = stream.ToString();
+        }
+
+        if (!string.IsNullOrEmpty(metadata))
+        {
+            var metaDataDto = JsonSerializer.Deserialize<MetaDataDto>(metadata);
+            if (metaDataDto != null)
+            {
+                document.MetaData = metaDataDto;
+            }
+        }
+        
+        var success = await documentService.PostDocumentAsync(document.ToModel());
+        if (!success) return TypedResults.BadRequest("Failed to create document");
+        string? uri = null;
+        return TypedResults.Created(uri);
     }
 
     private static async Task<Results<Ok<MetaDataDto>, NotFound<string>>> GetDocumentMetadata(string id,
@@ -60,8 +90,18 @@ public static class DocumentEndpoint
             }
         }
 
-        var updatedMetadata = await documentService.UpdateDocumentAsync(document.ToModel());
-        if (updatedMetadata == null) return TypedResults.NotFound("Document not found");
+        var success = await documentService.UpdateDocumentAsync(document.ToModel());
+        if (!success) return TypedResults.NotFound("Document not found");
         return TypedResults.Ok("Document updated successfully");
+    }
+    
+    private static Task DeleteDocument(HttpContext context)
+    {
+        throw new NotImplementedException();
+    }
+    
+    private static Task SearchDocuments(HttpContext context)
+    {
+        throw new NotImplementedException();
     }
 }
