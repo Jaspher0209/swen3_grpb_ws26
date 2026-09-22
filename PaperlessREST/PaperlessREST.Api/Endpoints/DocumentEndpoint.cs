@@ -17,7 +17,6 @@ public static class DocumentEndpoint
 
         documentGroup.MapPost("/", CreateDocument);
         documentGroup.MapGet("/{id}/metadata", GetDocumentMetadata);
-        documentGroup.MapGet("/{id}/content", GetDocumentContent);
         documentGroup.MapPut("/{id}", UpdateDocument);
         documentGroup.MapDelete("/{id}", DeleteDocument);
         searchGroup.MapGet("/", SearchDocuments);
@@ -26,25 +25,17 @@ public static class DocumentEndpoint
     private static async Task<IResult> CreateDocument([FromForm] IFormFile data,
         [FromForm] string metadata, IDocumentService documentService)
     {
-        var document = new DocumentDto();
-        
-        if (data != null && data.Length > 0)
-        {
-            var fileName = data.FileName;
-            var stream = data.OpenReadStream();
-            document.Data = stream.ToString();
-        }
-
+        MetaDataDto metaDataDto;
         if (!string.IsNullOrEmpty(metadata))
         {
-            var metaDataDto = JsonSerializer.Deserialize<MetaDataDto>(metadata);
-            if (metaDataDto != null)
-            {
-                document.MetaData = metaDataDto;
-            }
+            metaDataDto = JsonSerializer.Deserialize<MetaDataDto>(metadata);
+        }
+        else
+        {
+            return TypedResults.BadRequest("Metadata is required");
         }
         
-        var success = await documentService.PostDocumentAsync(document.ToModel());
+        var success = await documentService.PostDocumentAsync(metaDataDto.ToModel());
         if (!success) return TypedResults.BadRequest("Failed to create document");
         string? uri = null;
         return TypedResults.Created(uri);
@@ -58,39 +49,20 @@ public static class DocumentEndpoint
         return TypedResults.Ok(documentMetadata.ToDto());
     }
     
-    private static async Task<Results<Ok<string>, NotFound<string>>> GetDocumentContent(string id,
-        IDocumentService documentService)
-    {
-        var documentContent = await documentService.GetDocumentContentAsync(id);
-        if (documentContent == null) return TypedResults.NotFound("Document not found");
-        return TypedResults.Ok(documentContent);
-    }
-    
-    private static async Task<Results<Ok<string>, NotFound<string>>> UpdateDocument(string id,
+    private static async Task<Results<Ok<string>, NotFound<string>, BadRequest<string>>> UpdateDocument(string id,
         [FromForm] IFormFile data, [FromForm] string metadata, IDocumentService documentService)
     {
-        var document = new DocumentDto()
-        {
-            Id = id
-        };
-        
-        if (data != null && data.Length > 0)
-        {
-            var fileName = data.FileName;
-            var stream = data.OpenReadStream();
-            document.Data = stream.ToString();
-        }
-
+        MetaDataDto metaDataDto;
         if (!string.IsNullOrEmpty(metadata))
         {
-            var metaDataDto = JsonSerializer.Deserialize<MetaDataDto>(metadata);
-            if (metaDataDto != null)
-            {
-                document.MetaData = metaDataDto;
-            }
+            metaDataDto = JsonSerializer.Deserialize<MetaDataDto>(metadata);
+        }
+        else
+        {
+            return TypedResults.BadRequest("Metadata is required");
         }
 
-        var success = await documentService.UpdateDocumentAsync(document.ToModel());
+        var success = await documentService.UpdateDocumentAsync(metaDataDto.ToModel());
         if (!success) return TypedResults.NotFound("Document not found");
         return TypedResults.Ok("Document updated successfully");
     }

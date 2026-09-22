@@ -1,14 +1,14 @@
-using Models;
+using PaperlessREST.Models;
 
 namespace PaperlessREST.Api.Dtos;
 
 public class MetaDataDto
 {
     public string Id { get; set; }
-    public string Filename { get; set; }
-    public string Description { get; set; }
-    public string Updated { get; set; }
-    public string Author { get; set; }
+    public string Filename { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public DateTime Updated { get; set; } = DateTime.UtcNow;
+    public string? Author { get; set; }
 }
 
 public static class MetaDataDtoExtensions
@@ -17,11 +17,11 @@ public static class MetaDataDtoExtensions
     {
         return new MetaDataDto
         {
-            Id = metaData.id,
-            Filename = metaData.filename,
-            Description = metaData.description,
-            Updated = metaData.updated,
-            Author = metaData.author
+            Id = metaData.Id,
+            Filename = metaData.Filename,
+            Description = metaData.Description,
+            Updated = metaData.Updated,
+            Author = metaData.Author
         };
     }
     
@@ -29,11 +29,11 @@ public static class MetaDataDtoExtensions
     {
         return new MetaData
         {
-            id = metaDataDto.Id,
-            filename = metaDataDto.Filename,
-            description = metaDataDto.Description,
-            updated = metaDataDto.Updated,
-            author = metaDataDto.Author
+            Id = metaDataDto.Id,
+            Filename = metaDataDto.Filename,
+            Description = metaDataDto.Description,
+            Updated = metaDataDto.Updated,
+            Author = metaDataDto.Author
         };
     }
 }

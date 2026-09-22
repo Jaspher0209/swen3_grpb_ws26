@@ -1,5 +1,5 @@
-using Dal;
-using Models;
+using PaperlessREST.Dal;
+using PaperlessREST.Models;
 
 namespace PaperlessREST.Bll;
 
@@ -12,14 +12,13 @@ public class DocumentService : IDocumentService
         _documentRepository = documentRepository;
     }
 
-    public Task<bool> PostDocumentAsync(Document document)
+    public Task<bool> PostDocumentAsync(MetaData metaData)
     {
         throw new NotImplementedException();
     }
 
     public async Task<MetaData> GetDocumentMetadataAsync(string id)
     {
-        throw new NotImplementedException();
         return await _documentRepository.GetDocument(id);
     }
 
@@ -28,10 +27,10 @@ public class DocumentService : IDocumentService
         throw new NotImplementedException();
     }
 
-    public async Task<bool> UpdateDocumentAsync(Document document)
+    public async Task<bool> UpdateDocumentAsync(MetaData metaData)
     {
         throw new NotImplementedException();
-        await _documentRepository.EditDocument(document.id, document.metaData); // data missing, only metadata is updated
+        await _documentRepository.EditDocument(metaData);
         return true;
     }
 

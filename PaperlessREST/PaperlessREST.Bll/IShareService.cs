@@ -1,4 +1,4 @@
-using Models;
+using PaperlessREST.Models;
 
 namespace PaperlessREST.Bll;
 

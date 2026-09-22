@@ -1,8 +1,9 @@
-using Dal;
+using PaperlessREST.Dal;
 using Microsoft.EntityFrameworkCore;
 using PaperlessREST.Api.Endpoints;
 using PaperlessREST.Api.Exceptions;
 using PaperlessREST.Bll;
+using DbContext = PaperlessREST.Dal.DbContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<IRepository, DocumentMetaRepository>();
-builder.Services.AddDbContext<MetadataDbContext>(options =>
+builder.Services.AddDbContext<DbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
