@@ -2,7 +2,7 @@
 
 public class MetaData
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public string Id { get; set; }
     public string Filename { get; set; } = string.Empty;
     public string? Description { get; set; }
     public DateTime Updated { get; set; } = DateTime.UtcNow;

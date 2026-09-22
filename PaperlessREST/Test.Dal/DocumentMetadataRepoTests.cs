@@ -96,7 +96,7 @@ public class DocumentMetaRepositoryTests
         };
         
         //Act : Edit Document
-        await documentMetaRepo.EditDocument("002", toEdit);
+        await documentMetaRepo.EditDocument(toEdit);
         var found = await documentMetaRepo.GetDocument("002");
 
         //Assert : Entry should still exist
