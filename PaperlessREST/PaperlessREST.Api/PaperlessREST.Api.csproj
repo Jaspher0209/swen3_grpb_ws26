@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Dal\Dal.csproj" />
       <ProjectReference Include="..\Models\Models.csproj" />
       <ProjectReference Include="..\PaperlessREST.Bll\PaperlessREST.Bll.csproj" />
     </ItemGroup>

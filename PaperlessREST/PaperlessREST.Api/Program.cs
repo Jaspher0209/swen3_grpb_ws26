@@ -1,35 +1,30 @@
-
+using Dal;
+using Microsoft.EntityFrameworkCore;
 using PaperlessREST.Api.Endpoints;
 using PaperlessREST.Bll;
 
-namespace PaperlessREST.Api;
+var builder = WebApplication.CreateBuilder(args);
 
-public class Program
+// Add services to the container.
+
+builder.Services.AddScoped<IDocumentMetaService, DocumentMetaService>();
+builder.Services.AddScoped<IRepository, DocumentMetaRepository>();
+builder.Services.AddDbContext<MetadataDbContext>(options =>
 {
-    public static void Main(string[] args)
-    {
-        var builder = WebApplication.CreateBuilder(args);
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
-        // Add services to the container.
-        
-        builder.Services.AddScoped<IDocumentService, DocumentService>();
-        
-        builder.Services.AddAuthorization();
+builder.Services.AddAuthorization();
 
-        builder.Services.AddOpenApi();
+builder.Services.AddOpenApi();
 
-        var app = builder.Build();
+var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.MapOpenApi();
-        }
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
-        app.UseAuthorization();
+app.UseAuthorization();
 
-        app.MapDocumentEndpoint();
+app.MapDocumentEndpoint();
 
-        app.Run();
-    }
-}
+app.Run();
