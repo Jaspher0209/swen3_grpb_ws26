@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-builder.Services.AddScoped<IDocumentMetaService, DocumentMetaService>();
+builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<IRepository, DocumentMetaRepository>();
 builder.Services.AddDbContext<MetadataDbContext>(options =>
 {

@@ -16,19 +16,28 @@ public static class DocumentEndpoint
         var shareGroup = documentGroup.MapGroup("/share");
 
         documentGroup.MapGet("/{id}/metadata", GetDocumentMetadata);
+        documentGroup.MapGet("/{id}/content", GetDocumentContent);
         documentGroup.MapPut("/{id}", UpdateDocument);
     }
 
     private static async Task<Results<Ok<MetaDataDto>, NotFound<string>>> GetDocumentMetadata(string id,
-        IDocumentMetaService documentMetaService)
+        IDocumentService documentService)
     {
-        var documentMetadata = await documentMetaService.GetDocumentMetadataAsync(id);
+        var documentMetadata = await documentService.GetDocumentMetadataAsync(id);
         if (documentMetadata == null) return TypedResults.NotFound("Document not found");
         return TypedResults.Ok(documentMetadata.ToDto());
     }
     
+    private static async Task<Results<Ok<string>, NotFound<string>>> GetDocumentContent(string id,
+        IDocumentService documentService)
+    {
+        var documentContent = await documentService.GetDocumentContentAsync(id);
+        if (documentContent == null) return TypedResults.NotFound("Document not found");
+        return TypedResults.Ok(documentContent);
+    }
+    
     private static async Task<Results<Ok<string>, NotFound<string>>> UpdateDocument(string id,
-        [FromForm] IFormFile data, [FromForm] string metadata, IDocumentMetaService documentMetaService)
+        [FromForm] IFormFile data, [FromForm] string metadata, IDocumentService documentService)
     {
         var document = new DocumentDto()
         {
@@ -51,7 +60,7 @@ public static class DocumentEndpoint
             }
         }
 
-        var updatedMetadata = await documentMetaService.UpdateDocumentAsync(document.ToModel());
+        var updatedMetadata = await documentService.UpdateDocumentAsync(document.ToModel());
         if (updatedMetadata == null) return TypedResults.NotFound("Document not found");
         return TypedResults.Ok("Document updated successfully");
     }
