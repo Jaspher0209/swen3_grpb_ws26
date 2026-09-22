@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models;
+using PaperlessREST.Models;
 
-namespace Dal;
+namespace PaperlessREST.Dal;
 
 public class DocumentMetaRepository : IRepository
 {
-    private readonly MetadataDbContext _dbContext;
+    private readonly DbContext _dbContext;
 
-    public DocumentMetaRepository(MetadataDbContext dbContext)
+    public DocumentMetaRepository(DbContext dbContext)
     {
         _dbContext = dbContext; 
     }
@@ -16,7 +16,7 @@ public class DocumentMetaRepository : IRepository
     // Retrieve Document from Db
     public async Task<MetaData?> GetDocument(string id)
     {
-        var metaData = await _dbContext.MetaData.FirstOrDefaultAsync(m => m.id == id);
+        var metaData = await _dbContext.MetaData.FirstOrDefaultAsync(m => m.Id == id);
         return metaData;
     }
 
@@ -26,7 +26,7 @@ public class DocumentMetaRepository : IRepository
     {
         _dbContext.MetaData.Add(metaData);
         await _dbContext.SaveChangesAsync();
-        return metaData.id;
+        return metaData.Id;
     }
 
     // Edit Document in Db
@@ -37,10 +37,10 @@ public class DocumentMetaRepository : IRepository
         if (found == null)
             return;
 
-        found.author = metaData.author;
-        found.description = metaData.description;
-        found.filename = metaData.filename;
-        found.updated = metaData.updated;
+        found.Author = metaData.Author;
+        found.Description = metaData.Description;
+        found.Filename = metaData.Filename;
+        found.Updated = metaData.Updated;
 
         await _dbContext.SaveChangesAsync();
     }

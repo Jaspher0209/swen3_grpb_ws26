@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Models\Models.csproj" />
+      <ProjectReference Include="..\PaperlessREST.Models\PaperlessREST.Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>

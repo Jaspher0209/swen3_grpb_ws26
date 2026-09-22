@@ -1,6 +1,6 @@
-using Models;
+using PaperlessREST.Models;
 
-namespace Dal;
+namespace PaperlessREST.Dal;
 
 public interface IRepository
 {
