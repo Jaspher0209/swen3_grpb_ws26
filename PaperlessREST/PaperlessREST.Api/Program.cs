@@ -21,18 +21,41 @@ builder.Services.AddScoped<IDocumentMetaRepository, DocumentMetaDocumentMetaRepo
 builder.Services.AddDbContext<DbContext>(options =>
 {
     options.UseNpgsql(connectionString);
+    if (builder.Environment.IsDevelopment())
+    {
+        options.EnableSensitiveDataLogging();
+        options.LogTo(Console.WriteLine, LogLevel.Information);
+    }
 });
 
+builder.Services.AddCors();
+
 builder.Services.AddAuthorization();
-
-
-
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) app.MapOpenApi();
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+
+    app.UseCors(policy =>
+    {
+        // todo map to ui
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+    
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        
+        var context = services.GetRequiredService<DbContext>();
+        context.Database.Migrate();
+    }
+}
 
 app.UseExceptionHandler(option => { });
 
