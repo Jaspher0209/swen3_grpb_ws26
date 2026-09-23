@@ -1,9 +1,11 @@
+using System.Text.Json.Serialization;
 using PaperlessREST.Models;
 
 namespace PaperlessREST.Api.Dtos;
 
 public class MetaDataDto
 {
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWriting)]
     public string Id { get; set; }
     public string Filename { get; set; } = string.Empty;
     public string? Description { get; set; }
