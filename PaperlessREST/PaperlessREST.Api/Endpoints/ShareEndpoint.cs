@@ -13,6 +13,8 @@ public static class ShareEndpoint
         var shareGroup = baseGroup.MapGroup("/share");
 
         shareGroup.MapPost("/", CreateShareLink).DisableAntiforgery();
+        shareGroup.MapPost("/{link}/metadata", AccessShareLinkMetadata).DisableAntiforgery();
+        shareGroup.MapPost("/{link}/content", AccessShareLinkContent).DisableAntiforgery();
     }
 
     private static async Task<Results<Ok<string>, BadRequest<string>, NotFound<string>>> CreateShareLink(
@@ -22,5 +24,22 @@ public static class ShareEndpoint
             return TypedResults.BadRequest("MetaDataId, ExpireDate and Password are required");
         var shareLinkString = await shareService.CreateShareLinkAsync(shareLink.MetaDataId, shareLink.Password, shareLink.ExpireDate);
         return TypedResults.Ok(shareLinkString);
+    }
+
+    private static async Task<Results<Ok<MetaData>, BadRequest<string>, NotFound<string>>> AccessShareLinkMetadata(
+        string link, [FromBody] string password, IShareService shareService)
+    {
+        if (string.IsNullOrEmpty(link)) return TypedResults.BadRequest("Link is required");
+        var metaData = await shareService.ResolveDocumentMetadataFromLinkAsync(link, password);
+        return TypedResults.Ok(metaData);
+    }
+    
+    private static async Task<Results<Ok<string>, BadRequest<string>, NotFound<string>>> AccessShareLinkContent(
+        string link, [FromBody] string password, IShareService shareService)
+    {
+        throw new NotImplementedException("AccessShareLinkContent is not implemented yet");
+        if (string.IsNullOrEmpty(link)) return TypedResults.BadRequest("Link is required");
+        var content = await shareService.ResolveDocumentContentFromLinkAsync(link, password);
+        return TypedResults.Ok(content);
     }
 }

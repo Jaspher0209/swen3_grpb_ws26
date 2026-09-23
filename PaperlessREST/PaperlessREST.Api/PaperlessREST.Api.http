@@ -1,5 +1,6 @@
 @HostAddress = http://localhost:8081
 @Id = 1eb93290-7411-46b6-94d8-fc84421c46a7
+@Link = wjfsik
 
 POST {{HostAddress}}/api/document
 Content-Type: multipart/form-data; boundary=MyBoundary
@@ -74,3 +75,23 @@ Content-Type: application/json
   "expiredate": "2028-09-23T12:28:55.214Z",
   "password": "meinPasswort"
 }
+
+###
+
+POST {{HostAddress}}/api/share/{{Link}}/metadata
+Content-Type: application/json
+
+{
+  "password": "meinPasswort"
+}
+
+###
+
+POST {{HostAddress}}/api/share/{{Link}}/content
+Content-Type: application/json
+
+{
+  "password": "meinPasswort"
+}
+
+###
