@@ -13,15 +13,16 @@ public class ShareRepository : IShareRepository
     }
 
     // create share link
-    public async Task<string> CreateShareLinkAsync(string metaDataId, ShareLink link)
+    public async Task<string> CreateShareLinkAsync(string metaDataId, string password, DateTime expirationDate)
     {
+        throw new NotImplementedException();
         // Check for data existence
         var metaDataExists = await _dbContext.MetaData.AnyAsync(m => m.Id == metaDataId);
         if (!metaDataExists)
         {
             throw new KeyNotFoundException($"MetaData mit ID {metaDataId} wurde nicht gefunden.");
         }
-
+/*
         // set meta data id (FK)
         link.MetaDataId = metaDataId;
 
@@ -35,11 +36,11 @@ public class ShareRepository : IShareRepository
         _dbContext.ShareLink.Add(link);
         await _dbContext.SaveChangesAsync();
 
-        return link.Guid;
+        return link.Guid;*/
     }
     
     // resolve metadata from share link
-    public async Task<MetaData?> ResolveMetaDataFromLinkAsync(string shareLinkGuid, string password)
+    public async Task<ShareLink?> ResolveMetaDataFromLinkAsync(string shareLinkGuid, string password)
     {
         // load link incl. respective MetaData (.Include)
         var shareLink = await _dbContext.ShareLink
@@ -67,6 +68,6 @@ public class ShareRepository : IShareRepository
             }
         }
         
-        return shareLink.MetaData;
+        return shareLink;
     }
 }

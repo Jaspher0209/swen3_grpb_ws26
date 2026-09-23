@@ -1,34 +1,36 @@
 using System.Diagnostics;
+using System.Reflection.Metadata;
+using PaperlessREST.Dal;
 using PaperlessREST.Models;
 
 namespace PaperlessREST.Bll;
 
 // TODO: Check if services are correct
 
-public class ShareService(IShareRepository shareRepository, IMetaRepository metaRepository, IDocumentService documentService) : IShareService {
+public class ShareService(IShareRepository shareRepository, IRepository metaRepository, IDocumentService documentService) : IShareService {
     private readonly IShareRepository _shareRepository = shareRepository;
-    private readonly IMetaRepository _metaRepository = metaRepository;
+    private readonly IRepository _metaRepository = metaRepository;
     private readonly IDocumentService _documentService = documentService;
     
     public async Task<string> CreateShareLinkAsync(string id, string password, DateTime expirationDate) {
-        if (await _metaRepository.GetDocumentAsync(id) == null) throw new KeyNotFoundException("Document not found");
+        if (await _metaRepository.GetDocument(id) == null) throw new KeyNotFoundException("Document not found");
         if (expirationDate < DateTime.UtcNow) throw new ArgumentException("Expiration date cannot be in the past");
-        return _shareRepository.CreateShareLink(id, password, expirationDate);
+        return await _shareRepository.CreateShareLinkAsync(id, password, expirationDate);
     }
     
-    public Task<MetaData> ResolveDocumentMetadataFromLinkAsync(string link, string password) {
-        return _documentService.GetDocumentMetadataAsync(ResolveLink(link, password));
+    public async Task<MetaData> ResolveDocumentMetadataFromLinkAsync(string link, string password) {
+        return await _documentService.GetDocumentMetadataAsync(await ResolveLink(link, password));
     }
     
-    public Task<Document> ResolveDocumentContentFromLinkAsync(string link, string password) {
-        return _documentService.GetDocumentContentAsync(ResolveLink(link, password));
+    public async Task<string> ResolveDocumentContentFromLinkAsync(string link, string password) {
+        return await _documentService.GetDocumentContentAsync(await ResolveLink(link, password));
     }
     
-    private string ResolveLink(string link, string password) {
-        var linkData = _shareRepository.GetShareLink(link);
+    private async Task<string> ResolveLink(string link, string password) {
+        var linkData = await _shareRepository.ResolveMetaDataFromLinkAsync(link, password);
         if (linkData == null) throw new KeyNotFoundException("Share link not found");
         if (linkData.Password != null && linkData.Password != password) throw new UnauthorizedAccessException("Invalid password");
-        if (linkData.ExpirationDate < DateTime.UtcNow) throw new UnauthorizedAccessException("Share link expired");
-        return linkData.DocumentId;
+        if (linkData.ExpireDate < DateTime.UtcNow) throw new UnauthorizedAccessException("Share link expired");
+        return linkData.MetaDataId;
     }
 }
