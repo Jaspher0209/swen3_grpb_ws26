@@ -128,3 +128,7 @@ http-client.private.env.json
 # Apifox Helper cache
 .idea/.cache/.Apifox_Helper
 .idea/ApifoxUploaderProjectSetting.xml
+/PaperlessREST/.idea/.idea.PaperlessREST/.idea/data_source_mapping.xml
+/PaperlessREST/.idea/.idea.PaperlessREST/.idea/dataSources.xml
+/PaperlessREST/.idea/.idea.PaperlessREST/.idea/db-forest-config.xml
+/PaperlessREST/.idea/.idea.PaperlessREST/.idea/sqldialects.xml
