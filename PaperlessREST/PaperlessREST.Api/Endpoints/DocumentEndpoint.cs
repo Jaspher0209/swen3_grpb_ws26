@@ -15,9 +15,9 @@ public static class DocumentEndpoint
         var searchGroup = documentGroup.MapGroup("/search");
         var shareGroup = documentGroup.MapGroup("/share");
 
-        documentGroup.MapPost("/", CreateDocument);
+        documentGroup.MapPost("/", CreateDocument).DisableAntiforgery();
         documentGroup.MapGet("/{id}/metadata", GetDocumentMetadata);
-        documentGroup.MapPut("/{id}", UpdateDocument);
+        documentGroup.MapPut("/{id}", UpdateDocument).DisableAntiforgery();
         documentGroup.MapDelete("/{id}", DeleteDocument);
         searchGroup.MapGet("/", SearchDocuments);
     }
@@ -28,17 +28,21 @@ public static class DocumentEndpoint
         MetaDataDto metaDataDto;
         if (!string.IsNullOrEmpty(metadata))
         {
-            metaDataDto = JsonSerializer.Deserialize<MetaDataDto>(metadata);
+            var options = new JsonSerializerOptions                                                                                                                           
+            {                                                                                                                                                                 
+                PropertyNameCaseInsensitive = true                                                                                                                            
+            }; 
+            metaDataDto = JsonSerializer.Deserialize<MetaDataDto>(metadata, options);
         }
         else
         {
             return TypedResults.BadRequest("Metadata is required");
         }
         
-        var success = await documentService.PostDocumentAsync(metaDataDto.ToModel());
-        if (!success) return TypedResults.BadRequest("Failed to create document");
+        var id = await documentService.PostDocumentAsync(metaDataDto.ToModel());
+        if (string.IsNullOrEmpty(id)) return TypedResults.BadRequest("Failed to create document");
         string? uri = null;
-        return TypedResults.Created(uri);
+        return TypedResults.Created(uri, id);
     }
 
     private static async Task<Results<Ok<MetaDataDto>, NotFound<string>>> GetDocumentMetadata(string id,
@@ -55,7 +59,11 @@ public static class DocumentEndpoint
         MetaDataDto metaDataDto;
         if (!string.IsNullOrEmpty(metadata))
         {
-            metaDataDto = JsonSerializer.Deserialize<MetaDataDto>(metadata);
+            var options = new JsonSerializerOptions                                                                                                                           
+            {                                                                                                                                                                 
+                PropertyNameCaseInsensitive = true                                                                                                                            
+            }; 
+            metaDataDto = JsonSerializer.Deserialize<MetaDataDto>(metadata, options);
         }
         else
         {
@@ -67,13 +75,17 @@ public static class DocumentEndpoint
         return TypedResults.Ok("Document updated successfully");
     }
     
-    private static Task DeleteDocument(HttpContext context)
+    private static async Task<Results<Ok<string>, NotFound<string>, BadRequest<string>>> DeleteDocument(string id, IDocumentService documentService)
     {
-        throw new NotImplementedException();
+        var success = await documentService.DeleteDocumentAsync(id);
+        if (!success) return TypedResults.NotFound("Document not found");
+        return TypedResults.Ok("Document deleted successfully");
     }
     
-    private static Task SearchDocuments(HttpContext context)
+    private static async Task<Results<Ok<List<MetaDataDto>>, NotFound<string>, BadRequest<string>>> SearchDocuments([FromQuery] string query, IDocumentService documentService)
     {
-        throw new NotImplementedException();
+        var documents = await documentService.SearchDocumentsAsync(query);
+        if (documents == null) return TypedResults.NotFound("Documents not found");
+        return TypedResults.Ok(documents.Select(d => d.ToDto()).ToList());
     }
 }

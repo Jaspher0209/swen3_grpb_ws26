@@ -4,7 +4,7 @@ namespace PaperlessREST.Bll;
 
 public interface IDocumentService
 {
-    Task<bool> PostDocumentAsync(MetaData metaData);
+    Task<string> PostDocumentAsync(MetaData metaData);
     Task<MetaData> GetDocumentMetadataAsync(string id);
     Task<string> GetDocumentContentAsync(string id);
     Task<bool> UpdateDocumentAsync(MetaData metaData);

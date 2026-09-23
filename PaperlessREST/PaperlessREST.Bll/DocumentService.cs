@@ -12,9 +12,10 @@ public class DocumentService : IDocumentService
         _documentRepository = documentRepository;
     }
 
-    public Task<bool> PostDocumentAsync(MetaData metaData)
+    public Task<string> PostDocumentAsync(MetaData metaData)
     {
-        throw new NotImplementedException();
+        var id = _documentRepository.UploadDocument(metaData);
+        return id;
     }
 
     public async Task<MetaData> GetDocumentMetadataAsync(string id)
@@ -29,14 +30,14 @@ public class DocumentService : IDocumentService
 
     public async Task<bool> UpdateDocumentAsync(MetaData metaData)
     {
-        throw new NotImplementedException();
         await _documentRepository.EditDocument(metaData);
         return true;
     }
 
     public Task<bool> DeleteDocumentAsync(string id)
     {
-        throw new NotImplementedException();
+        var result = _documentRepository.RemoveDocument(id);
+        return Task.FromResult(true);
     }
 
     public Task<List<MetaData>> SearchDocumentsAsync(string query)
