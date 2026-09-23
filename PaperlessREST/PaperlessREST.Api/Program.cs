@@ -7,19 +7,25 @@ using DbContext = PaperlessREST.Dal.DbContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
+
+var connectionString = builder.Configuration.GetConnectionString("Default") 
+                       ?? builder.Configuration["connectionStrings:Default"];
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddScoped<IDocumentService, DocumentService>();
-builder.Services.AddScoped<IRepository, DocumentMetaRepository>();
+builder.Services.AddScoped<IDocumentMetaRepository, DocumentMetaDocumentMetaRepository>();
 builder.Services.AddDbContext<DbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(connectionString);
 });
 
 builder.Services.AddAuthorization();
+
+
 
 builder.Services.AddOpenApi();
 
