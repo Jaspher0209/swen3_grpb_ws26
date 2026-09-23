@@ -1,6 +1,56 @@
 @HostAddress = http://localhost:8081
 
+POST {{HostAddress}}/api/document
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary                                                                                                                                                      
+Content-Disposition: form-data; name="data"; filename="mein_text.txt"                                                                                            
+Content-Type: text/plain                                                                                                                                     
+                                                                                                                                                                      
+Das ist mein Text-String, den ich anstelle einer PDF-Datei versenden möchte.                                                                                      
+Er kann auch über mehrere Zeilen gehen.                                                                                                                                                  
+                                                                                                                                                                      
+--MyBoundary                                                                                                                                                      
+Content-Disposition: form-data; name="metadata"                                                                                                                   
+Content-Type: application/json                                                                                                                                    
+                                                                                                                                                                      
+{                                                                                                                                                                 
+  "filename": "text_dokument.txt",                                                                                                                                
+  "description": "Ein Testdokument als reiner Text",                                                                                                              
+  "author": "Dein Name"                                                                                                                              
+}                                                                                                                                                                 
+--MyBoundary-- 
+
+###
+
 GET {{HostAddress}}/api/document/1/metadata
 Accept: application/json
+
+###
+
+PUT {{HostAddress}}/api/document/1
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary                                                                                                                                                      
+Content-Disposition: form-data; name="data"; filename="mein_text.txt"                                                                                            
+Content-Type: text/plain                                                                                                                                     
+                                                                                                                                                                      
+Das ist mein Text-String, den ich anstelle einer PDF-Datei versenden möchte.                                                                                      
+Er kann auch über mehrere Zeilen gehen.                                                                                                                                                  
+                                                                                                                                                                      
+--MyBoundary                                                                                                                                                      
+Content-Disposition: form-data; name="metadata"                                                                                                                   
+Content-Type: application/json                                                                                                                                    
+                                                                                                                                                                      
+{                                                                                                                                                                 
+  "filename": "text_dokument_aktualisiert.txt",
+  "description": "Ein aktualisiertes Testdokument als reiner Text",
+  "author": "Dein Name"
+}                                                                                                                                                                 
+--MyBoundary-- 
+
+###
+
+DELETE {{HostAddress}}/api/document/1
 
 ###
