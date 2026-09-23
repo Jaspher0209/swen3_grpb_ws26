@@ -3,11 +3,11 @@ using PaperlessREST.Models;
 
 namespace PaperlessREST.Dal;
 
-public class DocumentMetaRepository : IRepository
+public class DocumentMetaDocumentMetaRepository : IDocumentMetaRepository
 {
     private readonly DbContext _dbContext;
 
-    public DocumentMetaRepository(DbContext dbContext)
+    public DocumentMetaDocumentMetaRepository(DbContext dbContext)
     {
         _dbContext = dbContext; 
     }

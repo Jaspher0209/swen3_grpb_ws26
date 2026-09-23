@@ -2,7 +2,7 @@ using PaperlessREST.Models;
 
 namespace PaperlessREST.Dal;
 
-public interface IRepository
+public interface IDocumentMetaRepository
 {
     Task<MetaData?> GetDocument(string id);
     Task<string> UploadDocument(MetaData metaData);

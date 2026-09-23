@@ -5,11 +5,11 @@ namespace PaperlessREST.Bll;
 
 public class DocumentService : IDocumentService
 {
-    private readonly IRepository _documentRepository;
+    private readonly IDocumentMetaRepository _documentDocumentMetaRepository;
     
-    public DocumentService(IRepository documentRepository)
+    public DocumentService(IDocumentMetaRepository documentDocumentMetaRepository)
     {
-        _documentRepository = documentRepository;
+        _documentDocumentMetaRepository = documentDocumentMetaRepository;
     }
 
     public Task<string> PostDocumentAsync(MetaData metaData)
@@ -20,7 +20,7 @@ public class DocumentService : IDocumentService
 
     public async Task<MetaData> GetDocumentMetadataAsync(string id)
     {
-        return await _documentRepository.GetDocument(id);
+        return await _documentDocumentMetaRepository.GetDocument(id);
     }
 
     public async Task<string> GetDocumentContentAsync(string id)
@@ -30,7 +30,7 @@ public class DocumentService : IDocumentService
 
     public async Task<bool> UpdateDocumentAsync(MetaData metaData)
     {
-        await _documentRepository.EditDocument(metaData);
+        await _documentDocumentMetaRepository.EditDocument(metaData);
         return true;
     }
 

@@ -7,13 +7,13 @@ namespace PaperlessREST.Bll;
 
 // TODO: Check if services are correct
 
-public class ShareService(IShareRepository shareRepository, IRepository metaRepository, IDocumentService documentService) : IShareService {
+public class ShareService(IShareRepository shareRepository, IDocumentMetaRepository metaDocumentMetaRepository, IDocumentService documentService) : IShareService {
     private readonly IShareRepository _shareRepository = shareRepository;
-    private readonly IRepository _metaRepository = metaRepository;
+    private readonly IDocumentMetaRepository _metaDocumentMetaRepository = metaDocumentMetaRepository;
     private readonly IDocumentService _documentService = documentService;
     
     public async Task<string> CreateShareLinkAsync(string id, string password, DateTime expirationDate) {
-        if (await _metaRepository.GetDocument(id) == null) throw new KeyNotFoundException("Document not found");
+        if (await _metaDocumentMetaRepository.GetDocument(id) == null) throw new KeyNotFoundException("Document not found");
         if (expirationDate < DateTime.UtcNow) throw new ArgumentException("Expiration date cannot be in the past");
         return await _shareRepository.CreateShareLinkAsync(id, password, expirationDate);
     }

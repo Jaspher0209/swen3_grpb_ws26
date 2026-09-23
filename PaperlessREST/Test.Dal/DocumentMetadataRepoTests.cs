@@ -7,7 +7,7 @@ using DbContext = PaperlessREST.Dal.DbContext;
 namespace Test.DataAccessLayer;
 
 [TestFixture]
-public class DocumentMetaRepositoryTests
+public class DocumentMetaDocumentMetaRepositoryTests
 {
     private DbContext _dbContext;
 
@@ -52,7 +52,7 @@ public class DocumentMetaRepositoryTests
     {
         //Arrange : prepare db context / create repo-instance
         var context = GetInMemoryDbContext();
-        var documentMetaRepo = new DocumentMetaRepository(context);
+        var documentMetaRepo = new DocumentMetaDocumentMetaRepository(context);
         
         //Act : Get a document
         var found = await documentMetaRepo.GetDocument("001");
@@ -71,7 +71,7 @@ public class DocumentMetaRepositoryTests
     {
         //Arrange : prepare db context / create repo-instance
         var context = GetInMemoryDbContext();
-        var documentMetaRepo = new DocumentMetaRepository(context);
+        var documentMetaRepo = new DocumentMetaDocumentMetaRepository(context);
         
         //Act : Try to get "non-existent" document
         var found = await documentMetaRepo.GetDocument("003");
@@ -86,7 +86,7 @@ public class DocumentMetaRepositoryTests
     {
         //Arrange : Prepare DbContext / create repo-instance / Create MetaData-Object
         var context = GetInMemoryDbContext();
-        var documentMetaRepo = new DocumentMetaRepository(context);
+        var documentMetaRepo = new DocumentMetaDocumentMetaRepository(context);
         var toEdit = new MetaData()
         {
             Author = "Tom",
@@ -112,7 +112,7 @@ public class DocumentMetaRepositoryTests
     {
         //Arrange : prepare db context / create repo-instance
         var context = GetInMemoryDbContext();
-        var documentMetaRepo = new DocumentMetaRepository(context);
+        var documentMetaRepo = new DocumentMetaDocumentMetaRepository(context);
         
         //Act : Delete Entry
         await documentMetaRepo.RemoveDocument("002");
