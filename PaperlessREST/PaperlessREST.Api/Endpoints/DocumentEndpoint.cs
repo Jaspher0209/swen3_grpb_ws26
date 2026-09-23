@@ -12,8 +12,8 @@ public static class DocumentEndpoint
     {
         var baseGroup = builder.MapGroup("/api");
         var documentGroup = baseGroup.MapGroup("/document");
-        var searchGroup = documentGroup.MapGroup("/search");
-        var shareGroup = documentGroup.MapGroup("/share");
+        var searchGroup = baseGroup.MapGroup("/search");
+        var shareGroup = baseGroup.MapGroup("/share");
 
         documentGroup.MapPost("/", CreateDocument).DisableAntiforgery();
         documentGroup.MapGet("/{id}/metadata", GetDocumentMetadata);
@@ -86,14 +86,18 @@ public static class DocumentEndpoint
         }
 
         var success = await documentService.UpdateDocumentAsync(metaDataDto.ToModel());
-        if (!success) return TypedResults.NotFound("Document not found");
+        if (!success) return TypedResults.BadRequest("Failed to update document");
         return TypedResults.Ok("Document updated successfully");
     }
     
     private static async Task<Results<Ok<string>, NotFound<string>, BadRequest<string>>> DeleteDocument(string id, IDocumentService documentService)
     {
+        if (await documentService.GetDocumentMetadataAsync(id) == null)
+        {
+            return TypedResults.NotFound("Document not found");
+        }
         var success = await documentService.DeleteDocumentAsync(id);
-        if (!success) return TypedResults.NotFound("Document not found");
+        if (!success) return TypedResults.BadRequest("Failed to delete document");
         return TypedResults.Ok("Document deleted successfully");
     }
     

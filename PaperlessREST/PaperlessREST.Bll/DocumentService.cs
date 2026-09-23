@@ -30,14 +30,28 @@ public class DocumentService : IDocumentService
 
     public async Task<bool> UpdateDocumentAsync(MetaData metaData)
     {
-        await _documentDocumentMetaRepository.EditDocument(metaData);
-        return true;
+        try
+        {
+            await _documentDocumentMetaRepository.EditDocument(metaData);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
-    public Task<bool> DeleteDocumentAsync(string id)
+    public async Task<bool> DeleteDocumentAsync(string id)
     {
-        var result = _documentDocumentMetaRepository.RemoveDocument(id);
-        return Task.FromResult(true);
+        try
+        {
+            await _documentDocumentMetaRepository.RemoveDocument(id);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
     public Task<List<MetaData>> SearchDocumentsAsync(string query)

@@ -1,5 +1,5 @@
 @HostAddress = http://localhost:8081
-@Id = 06cb8516-4874-4d83-9578-3ebd98eee70c
+@Id = a31a1575-21be-426e-a790-c401712eb067
 
 POST {{HostAddress}}/api/document
 Content-Type: multipart/form-data; boundary=MyBoundary
@@ -60,3 +60,6 @@ Content-Type: application/json
 DELETE {{HostAddress}}/api/document/{{Id}}
 
 ###
+
+GET {{HostAddress}}/api/search/?query=Test
+Accept: application/json
