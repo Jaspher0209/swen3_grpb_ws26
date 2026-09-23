@@ -24,6 +24,10 @@ public class DocumentMetaDocumentMetaRepository : IDocumentMetaRepository
 
     public async Task<string> UploadDocument(MetaData metaData)
     {
+        if (string.IsNullOrEmpty(metaData.Id))
+        {
+            metaData.Id = Guid.NewGuid().ToString();
+        }
         _dbContext.MetaData.Add(metaData);
         await _dbContext.SaveChangesAsync();
         return metaData.Id;
