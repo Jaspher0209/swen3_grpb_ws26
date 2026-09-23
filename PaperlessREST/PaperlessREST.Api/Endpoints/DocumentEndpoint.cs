@@ -17,6 +17,7 @@ public static class DocumentEndpoint
 
         documentGroup.MapPost("/", CreateDocument).DisableAntiforgery();
         documentGroup.MapGet("/{id}/metadata", GetDocumentMetadata);
+        documentGroup.MapGet("/{id}/content", GetDocumentContent);
         documentGroup.MapPut("/{id}", UpdateDocument).DisableAntiforgery();
         documentGroup.MapDelete("/{id}", DeleteDocument);
         searchGroup.MapGet("/", SearchDocuments);
@@ -53,9 +54,22 @@ public static class DocumentEndpoint
         return TypedResults.Ok(documentMetadata.ToDto());
     }
     
+    private static async Task<Results<Ok<string>, NotFound<string>>> GetDocumentContent(string id,
+        IDocumentService documentService)
+    {
+        throw new NotImplementedException("GetDocumentContent is not implemented yet");
+        var documentContent = await documentService.GetDocumentContentAsync(id);
+        if (documentContent == null) return TypedResults.NotFound("Document not found");
+        return TypedResults.Ok(documentContent);
+    }
+    
     private static async Task<Results<Ok<string>, NotFound<string>, BadRequest<string>>> UpdateDocument(string id,
         [FromForm] IFormFile data, [FromForm] string metadata, IDocumentService documentService)
     {
+        if (await documentService.GetDocumentMetadataAsync(id) == null)
+        {
+            return TypedResults.NotFound("Document not found");
+        }
         MetaDataDto metaDataDto;
         if (!string.IsNullOrEmpty(metadata))
         {
@@ -64,6 +78,7 @@ public static class DocumentEndpoint
                 PropertyNameCaseInsensitive = true                                                                                                                            
             }; 
             metaDataDto = JsonSerializer.Deserialize<MetaDataDto>(metadata, options);
+            metaDataDto.Id = id;
         }
         else
         {
@@ -84,6 +99,7 @@ public static class DocumentEndpoint
     
     private static async Task<Results<Ok<List<MetaDataDto>>, NotFound<string>, BadRequest<string>>> SearchDocuments([FromQuery] string query, IDocumentService documentService)
     {
+        throw new NotImplementedException("SearchDocuments is not implemented yet");
         var documents = await documentService.SearchDocumentsAsync(query);
         if (documents == null) return TypedResults.NotFound("Documents not found");
         return TypedResults.Ok(documents.Select(d => d.ToDto()).ToList());

@@ -1,4 +1,5 @@
 @HostAddress = http://localhost:8081
+@Id = 06cb8516-4874-4d83-9578-3ebd98eee70c
 
 POST {{HostAddress}}/api/document
 Content-Type: multipart/form-data; boundary=MyBoundary
@@ -23,12 +24,17 @@ Content-Type: application/json
 
 ###
 
-GET {{HostAddress}}/api/document/1/metadata
+GET {{HostAddress}}/api/document/{{Id}}/metadata
 Accept: application/json
 
 ###
 
-PUT {{HostAddress}}/api/document/1
+GET {{HostAddress}}/api/document/{{Id}}/content
+Accept: application/json
+
+###
+
+PUT {{HostAddress}}/api/document/{{Id}}
 Content-Type: multipart/form-data; boundary=MyBoundary
 
 --MyBoundary                                                                                                                                                      
@@ -51,6 +57,6 @@ Content-Type: application/json
 
 ###
 
-DELETE {{HostAddress}}/api/document/1
+DELETE {{HostAddress}}/api/document/{{Id}}
 
 ###
