@@ -22,7 +22,7 @@ public static class DocumentEndpoint
         searchGroup.MapGet("/", SearchDocuments);
     }
     
-    private static async Task<IResult> CreateDocument([FromForm] IFormFile data,
+    public static async Task<IResult> CreateDocument([FromForm] IFormFile data,
         [FromForm] string metadata, IDocumentService documentService)
     {
         MetaDataDto metaDataDto;
@@ -45,7 +45,7 @@ public static class DocumentEndpoint
         return TypedResults.Created(uri, id);
     }
 
-    private static async Task<Results<Ok<MetaDataDto>, NotFound<string>>> GetDocumentMetadata(string id,
+    public static async Task<Results<Ok<MetaDataDto>, NotFound<string>>> GetDocumentMetadata(string id,
         IDocumentService documentService)
     {
         var documentMetadata = await documentService.GetDocumentMetadataAsync(id);
@@ -53,7 +53,7 @@ public static class DocumentEndpoint
         return TypedResults.Ok(documentMetadata.ToDto());
     }
     
-    private static async Task<Results<Ok<string>, NotFound<string>>> GetDocumentContent(string id,
+    public static async Task<Results<Ok<string>, NotFound<string>>> GetDocumentContent(string id,
         IDocumentService documentService)
     {
         throw new NotImplementedException("GetDocumentContent is not implemented yet");
@@ -62,7 +62,7 @@ public static class DocumentEndpoint
         return TypedResults.Ok(documentContent);
     }
     
-    private static async Task<Results<Ok<string>, NotFound<string>, BadRequest<string>>> UpdateDocument(string id,
+    public static async Task<Results<Ok<string>, NotFound<string>, BadRequest<string>>> UpdateDocument(string id,
         [FromForm] IFormFile data, [FromForm] string metadata, IDocumentService documentService)
     {
         if (await documentService.GetDocumentMetadataAsync(id) == null)
@@ -89,7 +89,7 @@ public static class DocumentEndpoint
         return TypedResults.Ok("Document updated successfully");
     }
     
-    private static async Task<Results<Ok<string>, NotFound<string>, BadRequest<string>>> DeleteDocument(string id, IDocumentService documentService)
+    public static async Task<Results<Ok<string>, NotFound<string>, BadRequest<string>>> DeleteDocument(string id, IDocumentService documentService)
     {
         if (await documentService.GetDocumentMetadataAsync(id) == null)
         {
@@ -100,7 +100,7 @@ public static class DocumentEndpoint
         return TypedResults.Ok("Document deleted successfully");
     }
     
-    private static async Task<Results<Ok<List<MetaDataDto>>, NotFound<string>, BadRequest<string>>> SearchDocuments([FromQuery] string query, IDocumentService documentService)
+    public static async Task<Results<Ok<List<MetaDataDto>>, NotFound<string>, BadRequest<string>>> SearchDocuments([FromQuery] string query, IDocumentService documentService)
     {
         throw new NotImplementedException("SearchDocuments is not implemented yet");
         var documents = await documentService.SearchDocumentsAsync(query);

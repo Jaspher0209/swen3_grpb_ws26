@@ -17,16 +17,16 @@ public static class ShareEndpoint
         shareGroup.MapPost("/{link}/content", AccessShareLinkContent).DisableAntiforgery();
     }
 
-    private static async Task<Results<Ok<string>, BadRequest<string>, NotFound<string>>> CreateShareLink(
+    public static async Task<Results<Ok<string>, BadRequest<string>, NotFound<string>>> CreateShareLink(
         [FromBody] ShareLink shareLink, IShareService shareService)
     {
-        if (shareLink.DocumentId == null || shareLink.ExpireDate == null || shareLink.Password == null)
+        if (shareLink.DocumentId == null || shareLink.Password == null)
             return TypedResults.BadRequest("DocumentId, ExpireDate and Password are required");
         var shareLinkString = await shareService.CreateShareLinkAsync(shareLink.DocumentId, shareLink.Password, shareLink.ExpireDate);
         return TypedResults.Ok(shareLinkString);
     }
 
-    private static async Task<Results<Ok<MetaData>, BadRequest<string>, NotFound<string>>> AccessShareLinkMetadata(
+    public static async Task<Results<Ok<MetaData>, BadRequest<string>, NotFound<string>>> AccessShareLinkMetadata(
         string link, [FromBody] string password, IShareService shareService)
     {
         if (string.IsNullOrEmpty(link)) return TypedResults.BadRequest("Link is required");
@@ -34,7 +34,7 @@ public static class ShareEndpoint
         return TypedResults.Ok(metaData);
     }
     
-    private static async Task<Results<Ok<string>, BadRequest<string>, NotFound<string>>> AccessShareLinkContent(
+    public static async Task<Results<Ok<string>, BadRequest<string>, NotFound<string>>> AccessShareLinkContent(
         string link, [FromBody] string password, IShareService shareService)
     {
         throw new NotImplementedException("AccessShareLinkContent is not implemented yet");
