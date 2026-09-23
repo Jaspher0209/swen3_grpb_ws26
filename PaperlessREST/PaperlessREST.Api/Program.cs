@@ -18,6 +18,8 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<IDocumentMetaRepository, DocumentMetaDocumentMetaRepository>();
+builder.Services.AddScoped<IShareService, ShareService>();
+builder.Services.AddScoped<IShareRepository, ShareRepository>();
 builder.Services.AddDbContext<DbContext>(options =>
 {
     options.UseNpgsql(connectionString);
@@ -62,6 +64,7 @@ app.UseExceptionHandler(option => { });
 app.UseAuthorization();
 
 app.MapDocumentEndpoint();
+app.MapShareEndpoint();
 
 app.Run();
 public partial class Program { }

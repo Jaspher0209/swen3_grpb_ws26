@@ -1,5 +1,5 @@
 @HostAddress = http://localhost:8081
-@Id = a31a1575-21be-426e-a790-c401712eb067
+@Id = 1eb93290-7411-46b6-94d8-fc84421c46a7
 
 POST {{HostAddress}}/api/document
 Content-Type: multipart/form-data; boundary=MyBoundary
@@ -63,3 +63,14 @@ DELETE {{HostAddress}}/api/document/{{Id}}
 
 GET {{HostAddress}}/api/search/?query=Test
 Accept: application/json
+
+###
+
+POST {{HostAddress}}/api/share
+Content-Type: application/json
+
+{
+  "metadataid": "{{Id}}",
+  "expiredate": "2028-09-23T12:28:55.214Z",
+  "password": "meinPasswort"
+}

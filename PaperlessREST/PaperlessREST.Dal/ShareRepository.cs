@@ -18,11 +18,8 @@ public class ShareRepository : IShareRepository
         throw new NotImplementedException();
         // Check for data existence
         var metaDataExists = await _dbContext.MetaData.AnyAsync(m => m.Id == metaDataId);
-        if (!metaDataExists)
-        {
-            throw new KeyNotFoundException($"MetaData mit ID {metaDataId} wurde nicht gefunden.");
-        }
-/*
+        if (!metaDataExists) throw new KeyNotFoundException($"MetaData mit ID {metaDataId} wurde nicht gefunden.");
+        /*
         // set meta data id (FK)
         link.MetaDataId = metaDataId;
 
@@ -38,7 +35,7 @@ public class ShareRepository : IShareRepository
 
         return link.Guid;*/
     }
-    
+
     // resolve metadata from share link
     public async Task<ShareLink?> ResolveMetaDataFromLinkAsync(string shareLinkGuid, string password)
     {
@@ -48,26 +45,16 @@ public class ShareRepository : IShareRepository
             .FirstOrDefaultAsync(s => s.Guid == shareLinkGuid);
 
         // case: share link does not exist
-        if (shareLink == null)
-        {
-            return null; 
-        }
+        if (shareLink == null) return null;
 
         // case: expire date
-        if (shareLink.ExpireDate < DateTime.UtcNow)
-        {
-            return null;
-        }
+        if (shareLink.ExpireDate < DateTime.UtcNow) return null;
 
         // case: password is empty and password is wrong
         if (!string.IsNullOrEmpty(shareLink.Password))
-        {
             if (shareLink.Password != password)
-            {
                 return null;
-            }
-        }
-        
+
         return shareLink;
     }
 }

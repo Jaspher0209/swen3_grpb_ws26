@@ -13,7 +13,6 @@ public static class DocumentEndpoint
         var baseGroup = builder.MapGroup("/api");
         var documentGroup = baseGroup.MapGroup("/document");
         var searchGroup = baseGroup.MapGroup("/search");
-        var shareGroup = baseGroup.MapGroup("/share");
 
         documentGroup.MapPost("/", CreateDocument).DisableAntiforgery();
         documentGroup.MapGet("/{id}/metadata", GetDocumentMetadata);
