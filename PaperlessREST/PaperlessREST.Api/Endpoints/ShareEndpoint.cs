@@ -20,7 +20,6 @@ public static class ShareEndpoint
     {
         if (shareLink.MetaDataId == null || shareLink.ExpireDate == null || shareLink.Password == null)
             return TypedResults.BadRequest("MetaDataId, ExpireDate and Password are required");
-        if (shareLink.ExpireDate < DateTime.UtcNow) return TypedResults.BadRequest("Expiration date cannot be in the past");
         var shareLinkString = await shareService.CreateShareLinkAsync(shareLink.MetaDataId, shareLink.Password, shareLink.ExpireDate);
         return TypedResults.Ok(shareLinkString);
     }
