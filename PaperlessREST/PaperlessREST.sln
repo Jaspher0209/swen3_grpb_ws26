@@ -1,10 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dal", "Dal\Dal.csproj", "{E65305D0-368D-4037-A152-B6DDAAD83A24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Api", "PaperlessREST.Api\PaperlessREST.Api.csproj", "{F4661387-B9F4-4EA2-B18F-A853D081ECD5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E65305D0-368D-4037-A152-B6DDAAD83A24} = {E65305D0-368D-4037-A152-B6DDAAD83A24}
+		{C1ACD174-4843-480C-9528-FB016417707F} = {C1ACD174-4843-480C-9528-FB016417707F}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{C1ACD174-4843-480C-9528-FB016417707F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Bll", "PaperlessREST.Bll\PaperlessREST.Bll.csproj", "{677E27CF-0284-471E-BCEF-A8E2FB7D5F27}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E65305D0-368D-4037-A152-B6DDAAD83A24} = {E65305D0-368D-4037-A152-B6DDAAD83A24}
+		{C1ACD174-4843-480C-9528-FB016417707F} = {C1ACD174-4843-480C-9528-FB016417707F}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Dal", "Test.Dal\Test.Dal.csproj", "{C6502A1A-0DCA-4938-86E3-541C62903B31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Dal", "PaperlessREST.Dal\PaperlessREST.Dal.csproj", "{E65305D0-368D-4037-A152-B6DDAAD83A24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Models", "PaperlessREST.Models\PaperlessREST.Models.csproj", "{C1ACD174-4843-480C-9528-FB016417707F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Test.Dal", "PaperlessREST.Test.Dal\PaperlessREST.Test.Dal.csproj", "{C6502A1A-0DCA-4938-86E3-541C62903B31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Test.Bll", "PaperlessREST.Test.Bll\PaperlessREST.Test.Bll.csproj", "{C7260987-6823-40E5-9466-88176105A2A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Test.Api", "PaperlessREST.Test.Api\PaperlessREST.Test.Api.csproj", "{A5E5B296-0321-41D3-B174-2A31AFD00A01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,6 +28,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F4661387-B9F4-4EA2-B18F-A853D081ECD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4661387-B9F4-4EA2-B18F-A853D081ECD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4661387-B9F4-4EA2-B18F-A853D081ECD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4661387-B9F4-4EA2-B18F-A853D081ECD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{677E27CF-0284-471E-BCEF-A8E2FB7D5F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{677E27CF-0284-471E-BCEF-A8E2FB7D5F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{677E27CF-0284-471E-BCEF-A8E2FB7D5F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{677E27CF-0284-471E-BCEF-A8E2FB7D5F27}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E65305D0-368D-4037-A152-B6DDAAD83A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E65305D0-368D-4037-A152-B6DDAAD83A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E65305D0-368D-4037-A152-B6DDAAD83A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -24,5 +48,13 @@ Global
 		{C6502A1A-0DCA-4938-86E3-541C62903B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6502A1A-0DCA-4938-86E3-541C62903B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6502A1A-0DCA-4938-86E3-541C62903B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7260987-6823-40E5-9466-88176105A2A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7260987-6823-40E5-9466-88176105A2A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7260987-6823-40E5-9466-88176105A2A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7260987-6823-40E5-9466-88176105A2A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5E5B296-0321-41D3-B174-2A31AFD00A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5E5B296-0321-41D3-B174-2A31AFD00A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5E5B296-0321-41D3-B174-2A31AFD00A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5E5B296-0321-41D3-B174-2A31AFD00A01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
