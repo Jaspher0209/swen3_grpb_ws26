@@ -14,7 +14,7 @@ public class DocumentService : IDocumentService
 
     public Task<string> PostDocumentAsync(MetaData metaData)
     {
-        var id = _documentRepository.UploadDocument(metaData);
+        var id = _documentDocumentMetaRepository.UploadDocument(metaData);
         return id;
     }
 
@@ -36,7 +36,7 @@ public class DocumentService : IDocumentService
 
     public Task<bool> DeleteDocumentAsync(string id)
     {
-        var result = _documentRepository.RemoveDocument(id);
+        var result = _documentDocumentMetaRepository.RemoveDocument(id);
         return Task.FromResult(true);
     }
 
