@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ public class GlobalExceptionHandler : IExceptionHandler
             ArgumentException => (StatusCodes.Status400BadRequest, "Invalid argument"),
             InvalidOperationException => (StatusCodes.Status400BadRequest, "Invalid operation"),
             UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Unauthorized access"),
+            JsonException => (StatusCodes.Status400BadRequest, "Invalid JSON format"),
             _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred")
         };
         

@@ -18,7 +18,7 @@ public class DocumentService : IDocumentService
         return id;
     }
 
-    public async Task<MetaData> GetDocumentMetadataAsync(string id)
+    public async Task<MetaData?> GetDocumentMetadataAsync(string id)
     {
         return await _documentDocumentMetaRepository.GetDocument(id);
     }
