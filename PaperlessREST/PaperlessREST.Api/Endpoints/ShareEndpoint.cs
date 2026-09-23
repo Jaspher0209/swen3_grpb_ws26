@@ -20,9 +20,9 @@ public static class ShareEndpoint
     private static async Task<Results<Ok<string>, BadRequest<string>, NotFound<string>>> CreateShareLink(
         [FromBody] ShareLink shareLink, IShareService shareService)
     {
-        if (shareLink.MetaDataId == null || shareLink.ExpireDate == null || shareLink.Password == null)
-            return TypedResults.BadRequest("MetaDataId, ExpireDate and Password are required");
-        var shareLinkString = await shareService.CreateShareLinkAsync(shareLink.MetaDataId, shareLink.Password, shareLink.ExpireDate);
+        if (shareLink.DocumentId == null || shareLink.ExpireDate == null || shareLink.Password == null)
+            return TypedResults.BadRequest("DocumentId, ExpireDate and Password are required");
+        var shareLinkString = await shareService.CreateShareLinkAsync(shareLink.DocumentId, shareLink.Password, shareLink.ExpireDate);
         return TypedResults.Ok(shareLinkString);
     }
 

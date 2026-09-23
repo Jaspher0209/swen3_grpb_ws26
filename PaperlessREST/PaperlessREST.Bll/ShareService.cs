@@ -20,8 +20,7 @@ public class ShareService : IShareService
 
     public async Task<string> CreateShareLinkAsync(string id, string password, DateTime expirationDate)
     {
-        if (await _metaDocumentMetaRepository.GetDocument(id) == null)
-            throw new KeyNotFoundException("Document not found");
+        if (await _metaDocumentMetaRepository.GetDocument(id) == null) throw new KeyNotFoundException("Document not found");
         if (expirationDate < DateTime.UtcNow) throw new ArgumentException("Expiration date cannot be in the past");
         return await _shareRepository.CreateShareLinkAsync(id, password, expirationDate);
     }
@@ -38,11 +37,11 @@ public class ShareService : IShareService
 
     private async Task<string> ResolveLink(string link, string password)
     {
-        var linkData = await _shareRepository.ResolveMetaDataFromLinkAsync(link, password);
+        var linkData = await _shareRepository.GetLinkAsync(link);
         if (linkData == null) throw new KeyNotFoundException("Share link not found");
         if (linkData.Password != null && linkData.Password != password)
             throw new UnauthorizedAccessException("Invalid password");
         if (linkData.ExpireDate < DateTime.UtcNow) throw new UnauthorizedAccessException("Share link expired");
-        return linkData.MetaDataId;
+        return linkData.DocumentId;
     }
 }

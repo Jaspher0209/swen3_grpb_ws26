@@ -7,7 +7,4 @@ public class MetaData
     public string? Description { get; set; }
     public DateTime Updated { get; set; } = DateTime.UtcNow;
     public string? Author { get; set; }
-    
-    // ONE MetaData has MANY ShareLinks
-    public ICollection<ShareLink> ShareLinks { get; set; } = new List<ShareLink>();
 }

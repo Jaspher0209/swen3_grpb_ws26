@@ -9,10 +9,5 @@ public class ShareLink
     public string Guid { get; set; } = System.Guid.NewGuid().ToString();
     public string Password { get; set; }
     public DateTime ExpireDate { get; set; }
-
-    // EACH ShareLink has EXACTLY ONE MetaData
-    public string MetaDataId { get; set; } = string.Empty;
-
-    [ForeignKey(nameof(MetaDataId))]
-    public MetaData MetaData { get; set; } = null!;
+    public string DocumentId { get; set; }
 }
