@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Dal", "Paperl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Models", "PaperlessREST.Models\PaperlessREST.Models.csproj", "{C1ACD174-4843-480C-9528-FB016417707F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Dal", "Test.Dal\Test.Dal.csproj", "{C6502A1A-0DCA-4938-86E3-541C62903B31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Test.Dal", "PaperlessREST.Test.Dal\PaperlessREST.Test.Dal.csproj", "{C6502A1A-0DCA-4938-86E3-541C62903B31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessREST.Test.Bll", "PaperlessREST.Test.Bll\PaperlessREST.Test.Bll.csproj", "{C7260987-6823-40E5-9466-88176105A2A2}"
 EndProject
